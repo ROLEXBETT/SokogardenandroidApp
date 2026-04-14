@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Sokogarden">
         <activity
             android:name=".Signin"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Signup"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

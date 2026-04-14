@@ -33,7 +33,7 @@ class Signin : AppCompatActivity() {
         }
 
         signinBtn.setOnClickListener {
-            val api = "https://kbenkamotho.alwaysdata.net/api/signin"
+            val api = "https://rolexbett.alwaysdata.net/api/signin"
             val params = RequestParams()
 
             params.put("email", email.text.toString())
