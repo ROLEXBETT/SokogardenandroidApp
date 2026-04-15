@@ -33,16 +33,18 @@ class Signin : AppCompatActivity() {
         }
 
         signinBtn.setOnClickListener {
+            // Using the same base domain as the products for consistency if needed, 
+            // but keeping your provided API URL.
             val api = "https://rolexbett.alwaysdata.net/api/signin"
             val params = RequestParams()
 
-            params.put("email", email.text.toString())
-            params.put("password", password.text.toString())
+            params.put("email", email.text.toString().trim())
+            params.put("password", password.text.toString().trim())
 
-            // Initialize the API helper (Case-sensitive: ApiHelper)
-            val helper = ApiHelper(applicationContext)
+            // Initialize the API helper
+            val helper = ApiHelper(this)
 
-            // Use the post_login function from ApiHelper with the correct 'params' object
+            // Use the post_login function from ApiHelper
             helper.post_login(api, params)
         }
     }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var signinBtn: Button
     private lateinit var welcomeText: TextView
     private lateinit var logoutBtn: Button
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         signinBtn = findViewById(R.id.signinBtn)
         welcomeText = findViewById(R.id.welcomeText)
         logoutBtn = findViewById(R.id.logoutBtn)
+        recyclerView = findViewById(R.id.recyclerView)
+        progressBar = findViewById(R.id.progressbar)
 
         // 2. Check login session
         val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
@@ -47,15 +53,28 @@ class MainActivity : AppCompatActivity() {
             logoutBtn.visibility = View.VISIBLE
             signupBtn.visibility = View.GONE
             signinBtn.visibility = View.GONE
+            
+            // Show RecyclerView and ProgressBar when logged in
+            recyclerView.visibility = View.VISIBLE
+            progressBar.visibility = View.VISIBLE
+
+            // 3. Load Products
+            val url = "https://rolexbett.alwaysdata.net/api/products"
+            val helper = ApiHelper(this)
+            helper.loadProducts(url, recyclerView, progressBar)
+
         } else {
-            // User is NOT logged in: Show signin/signup, hide welcome/logout
+            // User is NOT logged in: Show signin/signup, hide welcome/logout/products
             welcomeText.visibility = View.GONE
             logoutBtn.visibility = View.GONE
             signupBtn.visibility = View.VISIBLE
             signinBtn.visibility = View.VISIBLE
+            
+            recyclerView.visibility = View.GONE
+            progressBar.visibility = View.GONE
         }
 
-        // 3. Set up Click Listeners
+        // 4. Set up Click Listeners
         signupBtn.setOnClickListener {
             startActivity(Intent(this, Signup::class.java))
         }
